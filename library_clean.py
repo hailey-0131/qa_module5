@@ -8,8 +8,12 @@ def remove_na(df):
     return df.dropna()
 
 # Remove duplicate rows
+# Remove duplicate rows, but ignore the ID column
 def remove_dupes(df):
-    return df.drop_duplicates()
+    # Get all columns except ID
+    cols = [col for col in df.columns if col != "Id"]
+    # Check for duplicates using those columns only
+    return df.drop_duplicates(subset=cols)
 
 # Clean text
 def strip_text(df):
