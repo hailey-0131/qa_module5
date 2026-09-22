@@ -55,7 +55,6 @@ def calc_days(df):
     return df
 
 
-
 # ---------------- CALL ALL CLEANING FUNCTIONS ----------------
 def clean_data(df):
     df = remove_na(df)
@@ -87,7 +86,6 @@ def check_late_return(df):
     df["Late Return"] = df["Days Borrowed"] > 14
     return df
 
-
 # Results
-cleaned_data = clean_data(books)
-print(check_late_return(check_data_quality(cleaned_data)))
+# cleaned_data = clean_data(books)
+# print(check_late_return(check_data_quality(cleaned_data)))
