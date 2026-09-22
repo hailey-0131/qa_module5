@@ -29,8 +29,8 @@ def convert_col(df):
     df["Customer ID"] = df["Customer ID"].astype("int64")
     # Convert date columns to date
     cleaned_checkout = df["Book checkout"].str.strip().str.strip('"')
-    df["Book checkout"] = pd.to_datetime(cleaned_checkout, errors="coerce")
-    df["Book Returned"] = pd.to_datetime(df["Book Returned"], errors="coerce")
+    df["Book checkout"] = pd.to_datetime(cleaned_checkout, errors="coerce", dayfirst=True)
+    df["Book Returned"] = pd.to_datetime(df["Book Returned"], errors="coerce", dayfirst=True)
     return df
 
 # Calculate days to borrow
@@ -49,6 +49,8 @@ def calc_days(df):
         # If the value is already in days
         elif "day" in unit.lower():
             return number
+        else:
+            raise ValueError(f"Unrecognised time unit")
     df["Days allowed to borrow"] = df["Days allowed to borrow"].apply(convert)
     return df
 
@@ -60,7 +62,6 @@ def clean_data(df):
     df = remove_dupes(df)
     df = strip_text(df)
     df = convert_col(df)
-    df = remove_na(df)
     df = calc_days(df)
     return df
 
@@ -69,6 +70,10 @@ def check_data_quality(df):
     def check_row(row):
         if row["Book checkout"] > row["Book Returned"]:
             return "Checkout date after returned date"
+        elif pd.isna(row["Book checkout"]):
+            return "Invalid checkout date"
+        elif pd.isna(row["Book Returned"]):
+            return "Invalid returned date"
         else:
             return "Good"
     df["Data Quality"] = df.apply(check_row, axis=1)
