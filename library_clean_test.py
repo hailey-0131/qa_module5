@@ -17,8 +17,7 @@ from library_clean import (
 @pytest.fixture
 def df():
     books = pd.read_csv("library.csv")
-    cleaned = clean_data(books)
-    return cleaned
+    return books
 
 # ---------------- TESTING FUNCTIONS ----------------
 def test_remove_na():
@@ -66,15 +65,57 @@ def test_strip_text():
     # ASSERT: values should match the expected results
     assert cleaned_df["Books"].tolist() == ["Dune","IT","The Hobbit"]
 
-def test_convert_col_converts_ids_to_integers():
+def test_convert_col_converts_ids_to_integers(df):
     test_df = pd.DataFrame({
         "Id": ["1", "2"],
-        "Customer ID": ["101", "102"]
+        "Customer ID": ["101", "102"],
+        "Book checkout": ['"20/02/2023"', '"20/05/2023"'],
+        "Book Returned": ["25/02/2023", "25/08/2023"]
     })
     cleaned_df = convert_col(test_df)
     # ASSERT: both ID columns should be integer datatypes
     assert pd.api.types.is_integer_dtype(cleaned_df["Id"])
     assert pd.api.types.is_integer_dtype(cleaned_df["Customer ID"])
 
+def test_convert_col_converts_dates():
+    test_df = pd.DataFrame({
+        "Id": ["1", "2"],
+        "Customer ID": ["101", "102"],
+        "Book checkout": ['"20/02/2023"', '"20/05/2023"'],
+        "Book Returned": ["25/02/2023", "25/08/2023"]
+    })
+    cleaned_df = convert_col(test_df)
+    # ASSERT: both columns should be datetime
+    assert pd.api.types.is_datetime64_any_dtype(cleaned_df["Book checkout"])
+    assert pd.api.types.is_datetime64_any_dtype(cleaned_df["Book Returned"])
+    # ASSERT: the checkout value should be converted correctly
+    assert cleaned_df["Book checkout"].iloc[0] == pd.Timestamp("2023-02-20")
+
+def test_calc_days_invalid_unit_raises_error():
+    test_df = pd.DataFrame({"Days allowed to borrow": ["2 years"]})
+    # ACT and ASSERT: the function should raise an error
+    with pytest.raises(ValueError):
+        calc_days(test_df)
+
+def test_checkout_after_return_is_flagged():
+    test_df = pd.DataFrame({
+        "Book checkout": [pd.Timestamp("2023-02-20")],
+        "Book Returned": [pd.Timestamp("2023-02-10")]
+    })
+    checked_df = check_data_quality(test_df)
+    # ASSERT: the date issue should be identified
+    assert checked_df["Data Quality"].iloc[0] == ("Checkout date after returned date")
 
 
+def test_clean_data(df):
+    cleaned_df = clean_data(df)
+    # Check that there are no rows where all columns are missing
+    assert cleaned_df.isna().all(axis=1).sum() == 0
+    # No trailing spaces in Books
+    assert cleaned_df["Books"].str.endswith(" ").sum() == 0
+    # ID is integer
+    assert pd.api.types.is_integer_dtype(cleaned_df["Id"])
+    # Checkout is a date
+    assert pd.api.types.is_datetime64_any_dtype(cleaned_df["Book checkout"])
+    # Check "2 weeks" was converted to 14
+    assert cleaned_df["Days allowed to borrow"].iloc[0] == 14
