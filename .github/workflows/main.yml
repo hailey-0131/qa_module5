@@ -1,7 +1,7 @@
 # This is a basic workflow to help you get started with GitHub Actions
 
 # Name of the workflow
-name: Eds Job
+name: testing
 
 # Controls when the workflow will run
 on:
@@ -36,4 +36,4 @@ jobs:
 
       # Runs a single command using the runner's shell
       - name: Run a one-line script
-        run: echo "Hello, world!"
+        run: echo "Hello, Hailey!"
