@@ -50,3 +50,23 @@ jobs:
       - name: Run tests
         run: |
           pytest
+
+      # 5. Run pytest tests
+      - name: Run pytest tests
+        run: |
+          python -m pytest testing \
+            --ignore-glob="*_unit_test.py" \
+            -v
+
+      # 6. Check that the GitHub secret is available
+      - name: Check Secret
+        env:
+          # Load the GitHub secret into an environment variable
+          DEMO_SECRET: ${{ secrets.DEMO_SECRET }}
+        run: |
+          # Check whether the secret contains a value
+          if [ -n "$DEMO_SECRET" ]; then
+            echo "The secret was loaded successfully"
+          else
+            echo "Cannot find our secret"
+          fi
