@@ -1,0 +1,12 @@
+# This is where we start from, as below ubuntu + python
+FROM python:3.14-slim
+# Set /app as the working directory inside the container
+WORKDIR /app
+# Copy requirements.txt from the project into /app
+COPY requirements.txt .
+# Install the Python packages listed in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+# Copy the rest of the project files into /app
+COPY . .
+# Run the Python application when the container starts
+CMD ["python", "src/main.py"]
