@@ -20,7 +20,7 @@ on:
 jobs:
 
   # Job for testing the Python code
-  test:
+  Testing:
 
     # Use a GitHub-hosted Ubuntu machine
     runs-on: ubuntu-latest
@@ -70,7 +70,7 @@ jobs:
 
   build:
     name: Building Docker Image
-    needs: test
+    needs: Testing
     runs-on: ubuntu-latest
 
     env:
