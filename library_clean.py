@@ -113,5 +113,5 @@ def clean_customers(df):
 # ---------------- SAVING DATA ----------------
 
 def save_data(books, customers):
-    books.to_csv("/app/output/library_cleaned.csv",, index=False)
+    books.to_csv("/app/output/library_cleaned.csv", index=False)
     customers.to_csv("/app/output/library_customers_cleaned.csv", index=False)
