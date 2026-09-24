@@ -17,7 +17,7 @@ from library_clean import (
 
 @pytest.fixture
 def df():
-    books = pd.read_csv("library.csv")
+    books = pd.read_csv("data/library.csv")
     return books
 
 # ---------------- TESTING FUNCTIONS ----------------
