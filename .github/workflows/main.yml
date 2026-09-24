@@ -60,6 +60,7 @@ jobs:
           if [ -n "$DEMO_SECRET" ]; then
             echo "The secret was loaded successfully"
           else
+          fi
 
 
   # ==================================================
@@ -110,4 +111,3 @@ jobs:
           path: ${{ env.IMAGE_NAME }}.tar
           if-no-files-found: error
             echo "Cannot find our secret"
-          fi
