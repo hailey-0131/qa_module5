@@ -73,6 +73,9 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
 
+    env:
+      IMAGE_NAME: library-clean
+
     steps:
 
       - name: Checkout Repo
@@ -110,4 +113,3 @@ jobs:
           name: ${{ env.IMAGE_NAME }}-${{ github.sha }}
           path: ${{ env.IMAGE_NAME }}.tar
           if-no-files-found: error
-            echo "Cannot find our secret"
