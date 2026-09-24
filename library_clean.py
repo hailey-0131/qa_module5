@@ -91,9 +91,7 @@ def check_late_return(df):
     df["Late Return"] = df["Days Borrowed"] > 14
     return df
 
-# Results
-# cleaned_data = clean_data(books)
-# print(check_late_return(check_data_quality(cleaned_data)))
+# ---------------- FUNCTIONS FOR BOOKS AND CUSTOMERS ----------------
 
 def clean_books(df):
     df = remove_na(df)
@@ -105,11 +103,15 @@ def clean_books(df):
     df = check_late_return(df)
     return df
 
-def clean_cust(df):
+def clean_customers(df):
     df = remove_na(df)
     df = remove_dupes(df)
     df = strip_text(df)
     df = convert_col_cust(df)
     return df
 
-print(clean_cust(customers))
+# ---------------- SAVING DATA ----------------
+
+def save_data(books, customers):
+    books.to_csv("library_cleaned.csv", index=False)
+    customers.to_csv("library_customers_cleaned.csv", index=False)
