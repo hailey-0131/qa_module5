@@ -60,8 +60,8 @@ jobs:
           if [ -n "$DEMO_SECRET" ]; then
             echo "The secret was loaded successfully"
           else
+            echo "Cannot find our secret"
           fi
-
 
   # ==================================================
   # BUILD JOB
