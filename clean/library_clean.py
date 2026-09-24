@@ -1,11 +1,8 @@
 import pandas as pd
 
-customers = pd.read_csv("library_customers.csv")
-books = pd.read_csv("library.csv")
-
 def load_data():
-    books = pd.read_csv("library.csv")
-    customers = pd.read_csv("library_customers.csv")
+    books = pd.read_csv("data/library.csv")
+    customers = pd.read_csv("data/library_customers.csv")
     return books, customers
 
 
