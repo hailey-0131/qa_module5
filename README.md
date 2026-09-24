@@ -1,5 +1,30 @@
 # Library Data Quality Project
 
+## [Loan Analysis Dashboard](https://app.powerbi.com/groups/me/reports/c49a9943-22ec-46b3-9ef0-f99eb5bacea5?ctid=e7a5c1ab-1c72-45e2-bc54-8984092104fa&pbi_source=linkShare)
+
+A Power BI dashboard was developed using the cleaned library data to provide an overview of loan activity and highlight potential data-quality issues.
+
+The dashboard contains two main pages:
+
+### Loan Analysis
+
+Provides an overview of library loan activity, including:
+
+- Total number of loans
+- Number and percentage of late returns
+- Analysis of loan and return activity
+- Key trends and patterns within the cleaned data
+
+### Data Quality
+
+Provides visibility of records where data-quality issues were identified during the Python cleaning process.
+
+This page allows users to:
+
+- View records that have been flagged with a data-quality issue
+- Identify the type of issue affecting each record
+
+
 ## Project Overview
 
 This project was created to improve the quality and reliability of library datasets using Python.
