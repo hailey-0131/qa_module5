@@ -1,5 +1,14 @@
 import pandas as pd
+
+customers = pd.read_csv("library_customers.csv")
 books = pd.read_csv("library.csv")
+
+def load_data():
+    books = pd.read_csv("library.csv")
+    customers = pd.read_csv("library_customers.csv")
+    return books, customers
+
+
 
 # ---------------- CLEANING FUNCTIONS ----------------
 
@@ -33,6 +42,12 @@ def convert_col(df):
     df["Book Returned"] = pd.to_datetime(df["Book Returned"], errors="coerce", dayfirst=True)
     return df
 
+# Convert column types - customers
+def convert_col_cust(df):
+    # Convert ID columns to integer
+    df["Customer ID"] = df["Customer ID"].astype("int64")
+    return df
+
 # Calculate days to borrow
 def calc_days(df):
     def convert(data):        
@@ -52,16 +67,6 @@ def calc_days(df):
         else:
             raise ValueError(f"Unrecognised time unit")
     df["Days allowed to borrow"] = df["Days allowed to borrow"].apply(convert)
-    return df
-
-
-# ---------------- CALL ALL CLEANING FUNCTIONS ----------------
-def clean_data(df):
-    df = remove_na(df)
-    df = remove_dupes(df)
-    df = strip_text(df)
-    df = convert_col(df)
-    df = calc_days(df)
     return df
 
 # Check if dates make sense
@@ -89,3 +94,22 @@ def check_late_return(df):
 # Results
 # cleaned_data = clean_data(books)
 # print(check_late_return(check_data_quality(cleaned_data)))
+
+def clean_books(df):
+    df = remove_na(df)
+    df = remove_dupes(df)
+    df = strip_text(df)
+    df = convert_col(df)
+    df = calc_days(df)
+    df = check_data_quality(df)
+    df = check_late_return(df)
+    return df
+
+def clean_cust(df):
+    df = remove_na(df)
+    df = remove_dupes(df)
+    df = strip_text(df)
+    df = convert_col_cust(df)
+    return df
+
+print(clean_cust(customers))
