@@ -10,7 +10,7 @@ from library_clean import (
     strip_text,
     convert_col,
     calc_days,
-    clean_data,
+    clean_books,
     check_data_quality,
     check_late_return
 )
@@ -108,8 +108,8 @@ def test_checkout_after_return_is_flagged():
     assert checked_df["Data Quality"].iloc[0] == ("Checkout date after returned date")
 
 
-def test_clean_data(df):
-    cleaned_df = clean_data(df)
+def test_clean_books(df):
+    cleaned_df = clean_books(df)
     # Check that there are no rows where all columns are missing
     assert cleaned_df.isna().all(axis=1).sum() == 0
     # No trailing spaces in Books
