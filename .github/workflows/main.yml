@@ -1,39 +1,64 @@
-# This is a basic workflow to help you get started with GitHub Actions
-
-# Name of the workflow
-name: testing
+# Name of the GitHub Actions workflow
+name: test
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow when code is pushed to the "main" branch
+
+  # Run when code is pushed to the main branch
   push:
     branches: ["main"]
 
-  # Triggers the workflow when a pull request targets the "main" branch
+  # Run when a pull request is made into the main branch
   pull_request:
     branches: ["main"]
 
-  # Allows you to run this workflow manually from the Actions tab
+  # Also allow the workflow to be started manually
   workflow_dispatch:
 
-# A workflow is made up of one or more jobs
-# Jobs can run sequentially or in parallel
+
+# Jobs that will run as part of the workflow
 jobs:
 
-  # This workflow contains a single job called "build"
-  build:
+  # Job for testing the Python code
+  test:
 
-    # Specifies the type of runner that the job will run on
+    # Use a GitHub-hosted Ubuntu machine
     runs-on: ubuntu-latest
 
-    # Steps are the sequence of tasks executed as part of the job
     steps:
 
-      # Checks out the repository into $GITHUB_WORKSPACE
-      # This allows the workflow to access your repository files
+      # 1. Checkout the repository
+      # This makes your Python files available to the workflow
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Runs a single command using the runner's shell
-      - name: Run a one-line script
-        run: echo "Hello, Hailey!"
+      # 2. Set up Python
+      # Choose the Python version that your project uses
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      # 3. Install the Python modules required by the project
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          
+      # 4. Run all pytest tests in the repository
+      - name: Run pytest tests
+        run: |
+          python -m pytest -v
+
+      # 6. Check that the GitHub secret is available
+      - name: Check Secret
+        env:
+          # Load the GitHub secret into an environment variable
+          DEMO_SECRET: ${{ secrets.DEMO_SECRET }}
+        run: |
+          # Check whether the secret contains a value
+          if [ -n "$DEMO_SECRET" ]; then
+            echo "The secret was loaded successfully"
+          else
+            echo "Cannot find our secret"
+          fi
