@@ -36,21 +36,21 @@ The main objectives of the project are to:
 ```text
 library-data-quality/
 │
-├── data/
+├── .github/
+│   └── workflows/                  # GitHub Actions workflows
+│       └── main.yml                # CI/CD workflow
+│
+├── clean/                          # Python cleaning code and tests
+│   ├── main.py                     # Runs the data cleaning process
+│   ├── library_clean.py            # Data cleaning functions
+│   └── library_clean_test.py       # Unit tests
+│
+├── data/                           # Source CSV files
 │   └── source CSV files
 │
-├── main.yml
-├── main.py
-│   └── library_clean.py
-│       └── load_data
-│       └── clean_books
-│       └── clean_customers
-│       └── save_data
-│   └── library_clean_test.py
-│
-├── docker/
+├── docker/                         # Docker configuration
 │   └── Dockerfile
 │
-└── output/
-    ├── library_cleaned.csv
-    └── library_customers_cleaned.csv
+├── .gitignore                      # Files/folders excluded from Git
+├── README.md                       # Project documentation
+└── requirements.txt                # Required Python packages
