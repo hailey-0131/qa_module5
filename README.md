@@ -7,13 +7,10 @@ This project was created to improve the quality and reliability of library datas
 The original data contained a number of data-quality issues, including:
 
 - Invalid or incorrectly formatted dates
-- Missing customer information
 - Duplicate records
 - Extra spaces in text fields
-- Inconsistent values
-- Books being returned before their checkout date
+- Books having returned before their checkout date
 - Books being returned more than 14 days after checkout
-- Loan durations stored using different units such as days, weeks and months
 - Library records that could not be matched to a customer
 
 The project uses Python and pandas to clean, validate and transform the data before producing cleaned CSV files that can be used for reporting and analysis.
@@ -27,10 +24,9 @@ The main objectives of the project are to:
 - Automate repetitive data-cleaning tasks
 - Identify and flag data-quality problems
 - Standardise data into consistent formats
-- Validate relationships between datasets
 - Produce clean datasets ready for analysis
 - Test the cleaning functions using automated unit tests
-- Automatically test the project when changes are pushed to GitHub
+- Automatically run the project when changes are pushed to GitHub
 - Package and run the application using Docker
 
 ---
@@ -40,17 +36,20 @@ The main objectives of the project are to:
 ```text
 library-data-quality/
 │
-├── main.py
-├── library_clean.py
-├── library_clean_test.py
-├── requirements.txt
+├── data/
+│   └── source CSV files
+│
 ├── main.yml
+├── main.py
+│   └── library_clean.py
+│       └── load_data
+│       └── clean_books
+│       └── clean_customers
+│       └── save_data
+│   └── library_clean_test.py
 │
 ├── docker/
 │   └── Dockerfile
-│
-├── data/
-│   └── source CSV files
 │
 └── output/
     ├── library_cleaned.csv
