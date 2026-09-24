@@ -113,3 +113,24 @@ jobs:
           name: ${{ env.IMAGE_NAME }}-${{ github.sha }}
           path: ${{ env.IMAGE_NAME }}.tar
           if-no-files-found: error
+
+      # Run the Docker image and save generated files outside the container
+      - name: Run Docker Image
+        run: |
+          # Create a folder on the GitHub runner for the output CSV files
+          mkdir -p output
+      
+          # Mount the output folder into the Docker container
+          docker run --rm \
+            -v ${{ github.workspace }}/output:/app/output \
+            $IMAGE_NAME:${{ github.sha }}
+      
+      # Upload the cleaned CSV files as a GitHub Actions artifact
+      - name: Upload Cleaned CSV Files
+        uses: actions/upload-artifact@v7
+        with:
+          name: cleaned-library-data
+          path: |
+            output/library_cleaned.csv
+            output/library_customers_cleaned.csv
+          if-no-files-found: error
