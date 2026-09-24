@@ -56,7 +56,7 @@ The main objectives of the project are to:
 
 ---
 
-## Project Structure
+## Repository Structure
 
 ```text
 library-data-quality/
